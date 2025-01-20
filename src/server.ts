@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import posts_routes from "./routes/posts_routes";
 import comments_routes from "./routes/comments_routes";
+import auth_routes from "./routes/auth_routes";
 
 const initApp = (): Promise<Express> => {
   return new Promise<Express>((resolve, reject) => {
@@ -24,6 +25,7 @@ const initApp = (): Promise<Express> => {
           app.use(bodyParser.urlencoded({ extended: true }));
           app.use("/posts", posts_routes);
           app.use("/comments", comments_routes);
+          app.use("/auth", auth_routes);
           resolve(app);
         })
         .catch((err) => {

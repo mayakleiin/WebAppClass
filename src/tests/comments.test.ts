@@ -23,18 +23,18 @@ let commentId = "";
 const testComment1 = {
   owner: "Maya",
   comment: "My First post",
-  commentId: "This is my first comment",
+  postId: "This is my first post",
 };
 
 const testComment2 = {
   owner: "Maya2",
   comment: "My First post 2",
-  commentId: "This is my first comment 2",
+  postId: "This is my first post 2",
 };
 
 const testCommentFail = {
   comment: "My First post 2",
-  commentId: "This is my first comment 2",
+  postId: "This is my first post 2",
 };
 
 describe("Comments Tests", () => {
@@ -44,7 +44,6 @@ describe("Comments Tests", () => {
     expect(response.statusCode).toBe(200);
   });
 
- 
   test("Comment Create test", async () => {
     const response = await request(app).post("/comments").send(testComment1);
     console.log(response.body);
@@ -52,7 +51,7 @@ describe("Comments Tests", () => {
     expect(response.statusCode).toBe(201);
     expect(comment.owner).toBe(testComment1.owner);
     expect(comment.comment).toBe(testComment1.comment);
-    expect(comment.postId).toBe(testComment1.commentId);
+    expect(comment.postId).toBe(testComment1.postId);
     commentId = comment._id;
   });
 
