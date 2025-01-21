@@ -4,6 +4,13 @@ import { authMiddleware } from "../controllers/auth_controller";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Comments
+ *   description: The Comments API
+ */
+
 router.get("/", (req: Request, res: Response) => {
   commentsController.getAll(req, res);
 });
