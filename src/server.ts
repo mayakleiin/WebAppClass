@@ -1,20 +1,21 @@
 import express, { Express } from "express";
-const app = express();
 import dotenv from "dotenv";
-dotenv.config();
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import posts_routes from "./routes/posts_routes";
-import comments_routes from "./routes/comments_routes";
-import auth_routes from "./routes/auth_routes";
+import postRoutes from "./routes/posts_route";
+import commentsRoutes from "./routes/comments_route";
+import authRoutes from "./routes/auth_route";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
+dotenv.config();
+const app = express();
 
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/posts", posts_routes);
-app.use("/comments", comments_routes);
-app.use("/auth", auth_routes);
+app.use("/posts", postRoutes);
+app.use("/comments", commentsRoutes);
+app.use("/auth", authRoutes);
 
 const options = {
   definition: {
@@ -31,24 +32,21 @@ const options = {
 const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-const initApp = (): Promise<Express> => {
+const initApp = async () => {
   return new Promise<Express>((resolve, reject) => {
     const db = mongoose.connection;
-    db.on("error", console.error.bind(console, "connection error:"));
+    db.on("error", (error) => {
+      console.error(error);
+    });
     db.once("open", function () {
-      console.log("Connected to the database");
+      console.log("Connected to Mongoose");
     });
     if (!process.env.DB_CONNECT) {
-      reject("DB_CONNECT is not defined");
+      reject("No DB_CONNECT");
     } else {
-      mongoose
-        .connect(process.env.DB_CONNECT)
-        .then(() => {
-          resolve(app);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+      mongoose.connect(process.env.DB_CONNECT).then(() => {
+        resolve(app);
+      });
     }
   });
 };

@@ -1,34 +1,67 @@
-###
+@baseUrl = http://localhost:3000
+@postId = 6790f6d0a5412283e50aee19
+@commentId = 6790f455c80f3fed27504c84
 
-GET http://localhost:3000/
+############ COMMENTS Requests: ############
 
-###
-
-GET http://localhost:3000/posts
-
-###
-
-GET http://localhost:3000/posts/6734d959d9d641367d22f61f
-
-###
-
-GET http://localhost:3000/posts?owner=Eliav2
-
-###
-
-POST http://localhost:3000/posts
+### Add a new comment
+POST {{baseUrl}}/comments
 Content-Type: application/json
 
 {
-    "owner": "Maya2",
-    "title": "My Second post",
-    "content": "This is my first post"
+  "post": "{{postId}}",
+  "content": "This is a comment",
+  "sender": "beyonce"
+}
+
+### Get a comment by ID
+GET {{baseUrl}}/comments/{{commentId}}
+
+### Get all comments
+GET {{baseUrl}}/comments/all
+
+### Update a comment
+PUT {{baseUrl}}/comments/{{commentId}}
+Content-Type: application/json
+
+{
+  "content": "Updated comment content"
+}
+
+### Delete a comment
+DELETE {{baseUrl}}/comments/{{commentId}}
+
+############ POSTS Requests: ############
+
+### Add a New Post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "Bad Romance",
+  "owner": "LadyGaga",
+  "content": "Caught in a bad romance"
 }
 
 
-###
+### Get All Posts (All posts)
+GET {{baseUrl}}/posts
 
-DELETE http://localhost:3000/posts/142341234
+### Get All Posts (Filtered by Owner)
+GET {{baseUrl}}/posts?owner=LadyGaga
 
-###
+### Get a Post by ID
+GET {{baseUrl}}/posts/{{postId}}
 
+### Update a Post
+PUT {{baseUrl}}/posts/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "Diamonds",
+  "owner": "Rihanna",
+  "content": "Shine bright like a diamond"
+}
+
+### Delete a Post
+DELETE {{baseUrl}}/posts/{{postId}}
